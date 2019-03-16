@@ -1,6 +1,6 @@
 # -*- encoding=UTF-8 -*-
 
-from nowstagram import db
+from nowstagram import db,login_manager
 from datetime import datetime
 import random
 
@@ -41,14 +41,33 @@ class User(db.Model):
     id=db.Column(db.Integer,primary_key=True,autoincrement=True)
     username=db.Column(db.String(80),unique=True)
     password=db.Column(db.String(32))
+    salt=db.Column(db.String(32))
     head_url=db.Column(db.String(256))
     images = db.relationship('Image', backref='user', lazy='dynamic')
 
 
-    def __init__(self, username, password):
+    def __init__(self, username, password,salt=''):
         self.username = username
         self.password = password
         self.head_url = 'http://images.nowcoder.com/head/' + str(random.randint(0, 1000)) + 't.png'
-
+        self.salt=salt
     def __repr__(self):
         return ('<User %d %s>' % (self.id, self.username)).encode('gbk')
+
+    def is_authenticated(self):
+        print 'is_authenticated'
+        return True
+
+    def is_active(self):
+         print 'is_active'
+         return True
+    def is_anonymous(self):
+         print 'is_anonymous'
+         return False
+    def get_id(self):
+         print 'get_id'
+         return  self.id
+
+@login_manager.user_loader
+def load_user(user_id):
+      return User.query.get(user_id)

@@ -43,5 +43,6 @@ def init_database():
     #print 6,u
     #print 7,u.images
     #print 8,Image.query.get(1).user
+    images = Image.query.order_by(db.desc(Image.id)).limit(10).all()
 if __name__ == '__main__':
     manager.run()
