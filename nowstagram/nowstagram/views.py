@@ -12,8 +12,9 @@ import os
 
 @app.route('/')
 def index():
-    images = Image.query.order_by(db.desc(Image.id)).limit(10).all()
-    return render_template('index.html',images=images)
+    page = request.args.get('page', 1, type=int)
+    pagination = Image.query.order_by(db.desc(Image.id)).paginate(page, per_page=10, error_out=False)
+    return render_template('index.html',images=pagination.items,pagination=pagination)
 
 @app.route('/image/<int:image_id>/')
 @login_required
