@@ -19,7 +19,7 @@
                 </div>
             </header>
 
-            <ul class="discuss-list">
+            <ul class="discuss-list js-discuss-list">
                 {% for comment in image.comments%}
                  {% if loop.index > 10 %}{% break %}{% endif %}
                 <li>
@@ -34,12 +34,17 @@
             </ul>
             <section class="discuss-edit">
                 <a class="icon-heart-empty"></a>
-                <form>
-                    <input placeholder="添加评论..." type="text">
-                </form>
-                <button class="more-info">更多选项</button>
+                  <input placeholder="添加评论..." id="jsCmt" type="text">
+                  <button class="more-info" id="jsSubmit">更多选项</button>
             </section>
         </div>
     </article>
 </div>
+{% endblock%}
+{% block js %}
+<script type="text/javascript">
+    window.imageId ={{image.id}};
+</script>
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+<script type="text/javascript" src="/static/js/detail.js"></script>
 {% endblock%}
